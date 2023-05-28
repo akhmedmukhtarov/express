@@ -40,12 +40,10 @@ function express() {
         middleware(req, res);
       }
 
-      // Route the request to the appropriate handler
       const method = req.method;
       const url = req.url;
       const routeHandler = this.routes[method][url];
       if (routeHandler) {
-        // Define response methods in the response object
         res.json = function(data) {
           res.setHeader('Content-Type', 'application/json');
           res.statusCode = 200;
@@ -78,7 +76,6 @@ function express() {
           });
         };
 
-        // Extract req.body, req.headers, and req.params
         let body = '';
         req.on('data', chunk => {
           body += chunk;
@@ -88,7 +85,6 @@ function express() {
           req.headers = req.headers;
           req.params = url.split('/').slice(1);
 
-          // Call the route handler function with the modified response object
           routeHandler(req, res);
         });
       } else {
